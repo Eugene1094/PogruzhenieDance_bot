@@ -8,7 +8,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-TOKEN = '7517801731:AAE0We5LKR6xdeVK9r5VodpTV9XvNwV0ehc' #os.environ.get('TELEGRAM_TOKEN')
+TOKEN = os.environ.get('TELEGRAM_TOKEN')
 TIMEZONE = pytz.timezone("Europe/Moscow")
 
 # Расписание: для каждого чата - список дней недели и время
