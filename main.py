@@ -89,17 +89,21 @@ async def send_dynamic_message(chat_id: int, weekday: str):
         print(f"Ошибка для {chat_id}, {weekday}: {e}")
 
 def schedule_jobs():
+    jobs_set = set()
     for sched in SCHEDULE:
         hour, minute = map(int, sched["time"].split(":"))
         for weekday in sched["days"]:
-            scheduler.add_job(
-                send_dynamic_message,
-                "cron",
-                args=[sched["chat_id"], weekday],
-                day_of_week=weekday,
-                hour=hour,
-                minute=minute,
-            )
+            job_key = (sched["chat_id"], weekday, sched["time"])
+            if job_key not in jobs_set:
+                scheduler.add_job(
+                    send_dynamic_message,
+                    "cron",
+                    args=[sched["chat_id"], weekday],
+                    day_of_week=weekday,
+                    hour=hour,
+                    minute=minute,
+                )
+                jobs_set.add(job_key)
 
 async def main():
     schedule_jobs()
