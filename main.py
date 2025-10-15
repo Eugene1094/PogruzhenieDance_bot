@@ -89,12 +89,12 @@ async def send_dynamic_message(chat_id: int, weekday: str):
         print(f"Ошибка для {chat_id}, {weekday}: {e}")
 
 def schedule_jobs():
-    jobs_set = set()
+    # jobs_set = set() # Проверка на создание дублирующихся заданий
     for sched in SCHEDULE:
         hour, minute = map(int, sched["time"].split(":"))
         for weekday in sched["days"]:
-            job_key = (sched["chat_id"], weekday, sched["time"])
-            if job_key not in jobs_set:
+            # job_key = (sched["chat_id"], weekday, sched["time"])
+            # if job_key not in jobs_set:
                 scheduler.add_job(
                     send_dynamic_message,
                     "cron",
@@ -103,7 +103,7 @@ def schedule_jobs():
                     hour=hour,
                     minute=minute,
                 )
-                jobs_set.add(job_key)
+                # jobs_set.add(job_key)
 
 async def main():
     schedule_jobs()
